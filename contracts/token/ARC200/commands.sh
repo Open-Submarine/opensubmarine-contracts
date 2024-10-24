@@ -10,23 +10,11 @@ arc200-build-artifacts() {
 arc200-build-all() {
   arc200-build-image && arc200-build-artifacts
 }
-arc200-simulate() {
-  (
-    cd src
-    python simulate.py
-  )
-}
 arc200-cli() {
   (
     cd src/scripts
-    source demo/utils.sh
     npx tsc
-    cli ${@}
-  )
-}
-arc200-check-mab() {
-  (
-    bash check_mab.sh
+    node main.js ${@}
   )
 }
 arc200-pytest() {
@@ -40,15 +28,6 @@ arc200-demo() {
     cd src/scripts
     npx tsc
     case ${1} in
-      "airdrop") {
-        bash demo/demo-contract-${1}.sh
-      } ;;
-      "staking") {
-        bash demo/demo-contract-${1}.sh
-      } ;;
-      "compensation") {
-        bash demo/demo-contract-${1}.sh
-      } ;;
       *) {
         echo "demo not found"
         false
@@ -67,34 +46,5 @@ arc200-mocha() {
     } || {
       npm run test-${1}
     }
-  )
-}
-arc200-plot() {
-  (
-    cd src
-    python plot-staking.py
-  )
-}
-arc200-program() {
-  (
-    set -e
-    cd src/scripts/program
-    npx tsc 
-    case ${1} in
-      airdrop|airdrop2|staking) {
-        node ${1}.js ${@:2}
-      } ;;
-      *) {
-        cat << EOF
-arc200-program
-
-  execute a program
-
-  USAGE scs-program airdrop [command] [args]
-
-EOF
-        false
-      } ;;
-    esac
   )
 }
