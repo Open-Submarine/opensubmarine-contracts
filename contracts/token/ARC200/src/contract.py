@@ -513,8 +513,11 @@ class ARC200Token(ARC200TokenInterface):
         sender_balance = self._balanceOf(sender)
         recipient_balance = self._balanceOf(recipient)
         assert sender_balance >= amount, "insufficient balance"
-        self.balances[sender] = sender_balance - amount
-        self.balances[recipient] = recipient_balance + amount
+        if sender == recipient:  # prevent self-transfer balance increments
+            self.balances[sender] = sender_balance  # current balance or zero
+        else:
+            self.balances[sender] = sender_balance - amount
+            self.balances[recipient] = recipient_balance + amount
         arc4.emit(
             arc200_Transfer(
                 arc4.Address(sender), arc4.Address(recipient), arc4.UInt256(amount)
@@ -551,7 +554,7 @@ class OSARC200Token(ARC200Token, Upgradeable, Deployable, Stakeable):
         # ownable state
         self.owner = Account()
         # upgradeable state
-        self.contract_version = UInt64()
+        self.contract_version = UInt64(1)
         self.deployment_version = UInt64()
         self.updatable = bool(1)
         self.upgrader = Global.creator_address
