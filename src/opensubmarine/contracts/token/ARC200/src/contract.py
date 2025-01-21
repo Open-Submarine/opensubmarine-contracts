@@ -386,9 +386,7 @@ class OSARC200TokenFactory(BaseFactory):
         compiled = compile_contract(
             ARC200TokenScaffold, extra_program_pages=3
         )  # max extra pages
-        base_app = arc4.arc4_create(
-            ARC200TokenScaffold, compiled=compiled
-        ).created_app
+        base_app = arc4.arc4_create(ARC200TokenScaffold, compiled=compiled).created_app
         arc4.emit(FactoryCreated(arc4.UInt64(base_app.id)))
         arc4.abi_call(  # inherit upgrader
             ARC200TokenScaffold.grant_upgrader,
