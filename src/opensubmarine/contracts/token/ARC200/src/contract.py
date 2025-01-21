@@ -16,9 +16,7 @@ from algopy import (
     op,
     subroutine,
 )
-
 from opensubmarine.utils.algorand import require_payment, close_offline_on_delete
-
 from opensubmarine.utils.types import Bytes8, Bytes32
 from opensubmarine import (
     Stakeable,
