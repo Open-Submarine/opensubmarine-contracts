@@ -1,0 +1,6 @@
+from algopy import ARC4Contract, arc4, Account
+
+class Ownable(ARC4Contract):
+    owner: Account
+    def __init__(self) -> None: ...
+    def transfer(self, new_owner: arc4.Address) -> None: ...

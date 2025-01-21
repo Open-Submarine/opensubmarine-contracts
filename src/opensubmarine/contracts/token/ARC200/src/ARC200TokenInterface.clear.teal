@@ -1,0 +1,7 @@
+#pragma version 10
+
+opensubmarine.contracts.token.ARC200.src.contract.ARC200TokenInterface.clear_state_program:
+    // src/contract.py:52
+    // class ARC200TokenInterface(ARC4Contract):
+    int 1
+    return

@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "opensubmarine"
+version = "0.1.7"
+description = "A library for secure smart contract development on Algorand"
+readme = "README.md"
+authors = [{ name = "OpenSubmarine Team", email = "hello@nautilus.sh" }]
+license = { file = "LICENSE" }
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Topic :: Security",
+]
+keywords = ["algorand", "smart-contracts", "blockchain", "crypto"]
+dependencies = ["py-algorand-sdk", "algopy"]
+requires-python = ">=3.7"
+
+[project.urls]
+Homepage = "https://github.com/NautilusOSS/opensubmarine-contracts"
+
+[tool.setuptools]
+package-dir = { "" = "src" }

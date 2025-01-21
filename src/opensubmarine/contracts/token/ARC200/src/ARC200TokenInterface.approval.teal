@@ -1,0 +1,331 @@
+#pragma version 10
+
+opensubmarine.contracts.token.ARC200.src.contract.ARC200TokenInterface.approval_program:
+    txn ApplicationID
+    bnz main_entrypoint@2
+    callsub __init__
+
+main_entrypoint@2:
+    // src/contract.py:52
+    // class ARC200TokenInterface(ARC4Contract):
+    txn NumAppArgs
+    bz main_bare_routing@14
+    method "arc200_name()byte[32]"
+    method "arc200_symbol()byte[8]"
+    method "arc200_decimals()uint8"
+    method "arc200_totalSupply()uint256"
+    method "arc200_balanceOf(address)uint256"
+    method "arc200_transferFrom(address,address,uint256)bool"
+    method "arc200_approve(address,uint256)bool"
+    method "arc200_allowance(address,address)uint256"
+    txna ApplicationArgs 0
+    match main_arc200_name_route@4 main_arc200_symbol_route@5 main_arc200_decimals_route@6 main_arc200_totalSupply_route@7 main_arc200_balanceOf_route@8 main_arc200_transferFrom_route@9 main_arc200_approve_route@10 main_arc200_allowance_route@11
+    err // reject transaction
+
+main_arc200_name_route@4:
+    // src/contract.py:62
+    // @arc4.abimethod(readonly=True)
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    callsub arc200_name
+    byte 0x151f7c75
+    swap
+    concat
+    log
+    int 1
+    return
+
+main_arc200_symbol_route@5:
+    // src/contract.py:69
+    // @arc4.abimethod(readonly=True)
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    callsub arc200_symbol
+    byte 0x151f7c75
+    swap
+    concat
+    log
+    int 1
+    return
+
+main_arc200_decimals_route@6:
+    // src/contract.py:76
+    // @arc4.abimethod(readonly=True)
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    callsub arc200_decimals
+    byte 0x151f7c75
+    swap
+    concat
+    log
+    int 1
+    return
+
+main_arc200_totalSupply_route@7:
+    // src/contract.py:83
+    // @arc4.abimethod(readonly=True)
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    callsub arc200_totalSupply
+    byte 0x151f7c75
+    swap
+    concat
+    log
+    int 1
+    return
+
+main_arc200_balanceOf_route@8:
+    // src/contract.py:90
+    // @arc4.abimethod(readonly=True)
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    // src/contract.py:52
+    // class ARC200TokenInterface(ARC4Contract):
+    txna ApplicationArgs 1
+    // src/contract.py:90
+    // @arc4.abimethod(readonly=True)
+    callsub arc200_balanceOf
+    byte 0x151f7c75
+    swap
+    concat
+    log
+    int 1
+    return
+
+main_arc200_transferFrom_route@9:
+    // src/contract.py:97
+    // @arc4.abimethod
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    // src/contract.py:52
+    // class ARC200TokenInterface(ARC4Contract):
+    txna ApplicationArgs 1
+    txna ApplicationArgs 2
+    txna ApplicationArgs 3
+    // src/contract.py:97
+    // @arc4.abimethod
+    callsub arc200_transferFrom
+    byte 0x151f7c75
+    swap
+    concat
+    log
+    int 1
+    return
+
+main_arc200_approve_route@10:
+    // src/contract.py:106
+    // @arc4.abimethod
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    // src/contract.py:52
+    // class ARC200TokenInterface(ARC4Contract):
+    txna ApplicationArgs 1
+    txna ApplicationArgs 2
+    // src/contract.py:106
+    // @arc4.abimethod
+    callsub arc200_approve
+    byte 0x151f7c75
+    swap
+    concat
+    log
+    int 1
+    return
+
+main_arc200_allowance_route@11:
+    // src/contract.py:113
+    // @arc4.abimethod(readonly=True)
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    // src/contract.py:52
+    // class ARC200TokenInterface(ARC4Contract):
+    txna ApplicationArgs 1
+    txna ApplicationArgs 2
+    // src/contract.py:113
+    // @arc4.abimethod(readonly=True)
+    callsub arc200_allowance
+    byte 0x151f7c75
+    swap
+    concat
+    log
+    int 1
+    return
+
+main_bare_routing@14:
+    // src/contract.py:52
+    // class ARC200TokenInterface(ARC4Contract):
+    txn OnCompletion
+    !
+    assert // reject transaction
+    txn ApplicationID
+    !
+    assert // is creating
+    int 1
+    return
+
+
+// opensubmarine.contracts.token.ARC200.src.contract.ARC200TokenInterface.arc200_name() -> bytes:
+arc200_name:
+    // src/contract.py:62-63
+    // @arc4.abimethod(readonly=True)
+    // def arc200_name(self) -> Bytes32:
+    proto 0 1
+    // src/contract.py:67
+    // return Bytes32.from_bytes(Bytes())
+    byte 0x
+    retsub
+
+
+// opensubmarine.contracts.token.ARC200.src.contract.ARC200TokenInterface.arc200_symbol() -> bytes:
+arc200_symbol:
+    // src/contract.py:69-70
+    // @arc4.abimethod(readonly=True)
+    // def arc200_symbol(self) -> Bytes8:
+    proto 0 1
+    // src/contract.py:74
+    // return Bytes8.from_bytes(Bytes())
+    byte 0x
+    retsub
+
+
+// opensubmarine.contracts.token.ARC200.src.contract.ARC200TokenInterface.arc200_decimals() -> bytes:
+arc200_decimals:
+    // src/contract.py:76-77
+    // @arc4.abimethod(readonly=True)
+    // def arc200_decimals(self) -> arc4.UInt8:
+    proto 0 1
+    // src/contract.py:81
+    // return arc4.UInt8(UInt64())
+    byte 0x00
+    retsub
+
+
+// opensubmarine.contracts.token.ARC200.src.contract.ARC200TokenInterface.arc200_totalSupply() -> bytes:
+arc200_totalSupply:
+    // src/contract.py:83-84
+    // @arc4.abimethod(readonly=True)
+    // def arc200_totalSupply(self) -> arc4.UInt256:
+    proto 0 1
+    // src/contract.py:88
+    // return arc4.UInt256(self.totalSupply)
+    int 0
+    // src/contract.py:58
+    // self.totalSupply = BigUInt()
+    byte "totalSupply"
+    // src/contract.py:88
+    // return arc4.UInt256(self.totalSupply)
+    app_global_get_ex
+    assert // check self.totalSupply exists
+    dup
+    len
+    int 32
+    <=
+    assert // overflow
+    int 32
+    bzero
+    b|
+    retsub
+
+
+// opensubmarine.contracts.token.ARC200.src.contract.ARC200TokenInterface.arc200_balanceOf(account: bytes) -> bytes:
+arc200_balanceOf:
+    // src/contract.py:90-91
+    // @arc4.abimethod(readonly=True)
+    // def arc200_balanceOf(self, account: arc4.Address) -> arc4.UInt256:
+    proto 1 1
+    // src/contract.py:95
+    // return arc4.UInt256(0)
+    byte 0x0000000000000000000000000000000000000000000000000000000000000000
+    retsub
+
+
+// opensubmarine.contracts.token.ARC200.src.contract.ARC200TokenInterface.arc200_transferFrom(sender: bytes, recipient: bytes, amount: bytes) -> bytes:
+arc200_transferFrom:
+    // src/contract.py:97-100
+    // @arc4.abimethod
+    // def arc200_transferFrom(
+    //     self, sender: arc4.Address, recipient: arc4.Address, amount: arc4.UInt256
+    // ) -> arc4.Bool:
+    proto 3 1
+    // src/contract.py:104
+    // return arc4.Bool(True)
+    byte 0x80
+    retsub
+
+
+// opensubmarine.contracts.token.ARC200.src.contract.ARC200TokenInterface.arc200_approve(spender: bytes, amount: bytes) -> bytes:
+arc200_approve:
+    // src/contract.py:106-107
+    // @arc4.abimethod
+    // def arc200_approve(self, spender: arc4.Address, amount: arc4.UInt256) -> arc4.Bool:
+    proto 2 1
+    // src/contract.py:111
+    // return arc4.Bool(True)
+    byte 0x80
+    retsub
+
+
+// opensubmarine.contracts.token.ARC200.src.contract.ARC200TokenInterface.arc200_allowance(owner: bytes, spender: bytes) -> bytes:
+arc200_allowance:
+    // src/contract.py:113-116
+    // @arc4.abimethod(readonly=True)
+    // def arc200_allowance(
+    //     self, owner: arc4.Address, spender: arc4.Address
+    // ) -> arc4.UInt256:
+    proto 2 1
+    // src/contract.py:120
+    // return arc4.UInt256(0)
+    byte 0x0000000000000000000000000000000000000000000000000000000000000000
+    retsub
+
+
+// opensubmarine.contracts.token.ARC200.src.contract.ARC200TokenInterface.__init__() -> void:
+__init__:
+    // src/contract.py:53
+    // def __init__(self) -> None:
+    proto 0 0
+    // src/contract.py:54-55
+    // # arc200 state
+    // self.name = String()
+    byte "name"
+    byte ""
+    app_global_put
+    // src/contract.py:56
+    // self.symbol = String()
+    byte "symbol"
+    byte ""
+    app_global_put
+    // src/contract.py:57
+    // self.decimals = UInt64()
+    byte "decimals"
+    int 0
+    app_global_put
+    // src/contract.py:58
+    // self.totalSupply = BigUInt()
+    byte "totalSupply"
+    byte 0x
+    app_global_put
+    retsub
