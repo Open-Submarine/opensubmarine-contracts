@@ -7,7 +7,7 @@ from algopy import (
     itxn,
 )
 from opensubmarine import OwnableInterface
-from opensubmarine.contracts.token.ARC200.src.utils import require_payment
+from opensubmarine.utils.algorand import require_payment
 from opensubmarine.utils.types import Bytes32, Bytes64
 
 ##################################################

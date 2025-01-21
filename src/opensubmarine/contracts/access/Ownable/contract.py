@@ -1,4 +1,3 @@
-from typing import Type
 from algopy import ARC4Contract, Account, Txn, arc4
 
 ##################################################

@@ -1,7 +1,0 @@
-#pragma version 10
-
-opensubmarine.contracts.token.ARC200.src.contract.OSARC200TokenFactory.clear_state_program:
-    // src/contract.py:286
-    // class OSARC200TokenFactory(BaseFactory):
-    int 1
-    return
