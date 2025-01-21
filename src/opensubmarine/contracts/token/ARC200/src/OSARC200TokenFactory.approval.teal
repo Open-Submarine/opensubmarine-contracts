@@ -1,0 +1,606 @@
+#pragma version 10
+
+opensubmarine.contracts.token.ARC200.src.contract.OSARC200TokenFactory.approval_program:
+    txn ApplicationID
+    bnz main_entrypoint@2
+    callsub __init__
+
+main_entrypoint@2:
+    // src/contract.py:286
+    // class OSARC200TokenFactory(BaseFactory):
+    txn NumAppArgs
+    bz main_bare_routing@11
+    method "create()uint64"
+    method "set_version(uint64,uint64)void"
+    method "approve_update(bool)void"
+    method "grant_upgrader(address)void"
+    method "transfer(address)void"
+    txna ApplicationArgs 0
+    match main_create_route@4 main_set_version_route@5 main_approve_update_route@6 main_grant_upgrader_route@7 main_transfer_route@8
+    err // reject transaction
+
+main_create_route@4:
+    // src/contract.py:290
+    // @arc4.abimethod
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    callsub create
+    itob
+    byte 0x151f7c75
+    swap
+    concat
+    log
+    int 1
+    return
+
+main_set_version_route@5:
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:83
+    // @arc4.abimethod
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    // src/contract.py:286
+    // class OSARC200TokenFactory(BaseFactory):
+    txna ApplicationArgs 1
+    txna ApplicationArgs 2
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:83
+    // @arc4.abimethod
+    callsub set_version
+    int 1
+    return
+
+main_approve_update_route@6:
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:101
+    // @arc4.abimethod
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    // src/contract.py:286
+    // class OSARC200TokenFactory(BaseFactory):
+    txna ApplicationArgs 1
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:101
+    // @arc4.abimethod
+    callsub approve_update
+    int 1
+    return
+
+main_grant_upgrader_route@7:
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:107
+    // @arc4.abimethod
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    // src/contract.py:286
+    // class OSARC200TokenFactory(BaseFactory):
+    txna ApplicationArgs 1
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:107
+    // @arc4.abimethod
+    callsub grant_upgrader
+    int 1
+    return
+
+main_transfer_route@8:
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/access/Ownable/contract.py:23
+    // @arc4.abimethod
+    txn OnCompletion
+    !
+    assert // OnCompletion is NoOp
+    txn ApplicationID
+    assert // is not creating
+    int 1
+    return
+
+main_bare_routing@11:
+    // src/contract.py:286
+    // class OSARC200TokenFactory(BaseFactory):
+    int 0
+    int 4
+    txn OnCompletion
+    match main_create@12 main_on_update@13
+    err // reject transaction
+
+main_create@12:
+    // src/contract.py:286
+    // class OSARC200TokenFactory(BaseFactory):
+    txn ApplicationID
+    !
+    assert // is creating
+    int 1
+    return
+
+main_on_update@13:
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:92
+    // @arc4.baremethod(allow_actions=["UpdateApplication"])
+    txn ApplicationID
+    assert // is not creating
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:92-93
+    // @arc4.baremethod(allow_actions=["UpdateApplication"])
+    // def on_update(self) -> None:
+    callsub on_update
+    int 1
+    return
+
+
+// opensubmarine.contracts.token.ARC200.src.contract.OSARC200TokenFactory.create() -> uint64:
+create:
+    // src/contract.py:290-297
+    // @arc4.abimethod
+    // def create(
+    //     self,
+    //     # name: Bytes32,
+    //     # symbol: Bytes8,
+    //     # decimals: arc4.UInt8,
+    //     # totalSupply: arc4.UInt256,
+    // ) -> UInt64:
+    proto 0 1
+    // src/contract.py:310-311
+    // ##########################################
+    // self.get_initial_payment()
+    callsub get_initial_payment
+    pop
+    // src/contract.py:316
+    // base_app = arc4.arc4_create(OSARC200Token, compiled=compiled).created_app
+    itxn_begin
+    // src/contract.py:312-315
+    // ##########################################
+    // compiled = compile_contract(
+    //     OSARC200Token, extra_program_pages=3
+    // )  # max extra pages
+    int 6
+    itxn_field GlobalNumUint
+    int 7
+    itxn_field GlobalNumByteSlice
+    // src/contract.py:314
+    // OSARC200Token, extra_program_pages=3
+    int 3
+    itxn_field ExtraProgramPages
+    // src/contract.py:312-315
+    // ##########################################
+    // compiled = compile_contract(
+    //     OSARC200Token, extra_program_pages=3
+    // )  # max extra pages
+    byte base64 CoEBQw==
+    itxn_field ClearStateProgramPages
+    byte base64 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
+    itxn_field ApprovalProgramPages
+    // src/contract.py:316
+    // base_app = arc4.arc4_create(OSARC200Token, compiled=compiled).created_app
+    int appl
+    itxn_field TypeEnum
+    int 0
+    itxn_field Fee
+    itxn_submit
+    itxn CreatedApplicationID
+    // src/contract.py:317
+    // arc4.emit(FactoryCreated(arc4.UInt64(base_app.id)))
+    dup
+    itob
+    method "FactoryCreated(uint64)"
+    swap
+    concat
+    log
+    // src/contract.py:318-322
+    // arc4.abi_call(  # inherit upgrader
+    //     OSARC200Token.grant_upgrader,
+    //     Global.creator_address,
+    //     app_id=base_app,
+    // )
+    itxn_begin
+    // src/contract.py:320
+    // Global.creator_address,
+    global CreatorAddress
+    dig 1
+    itxn_field ApplicationID
+    // src/contract.py:318-322
+    // arc4.abi_call(  # inherit upgrader
+    //     OSARC200Token.grant_upgrader,
+    //     Global.creator_address,
+    //     app_id=base_app,
+    // )
+    method "grant_upgrader(address)void"
+    itxn_field ApplicationArgs
+    itxn_field ApplicationArgs
+    int appl
+    itxn_field TypeEnum
+    int 0
+    itxn_field Fee
+    itxn_submit
+    // src/contract.py:323-325
+    // itxn.Payment(
+    //     receiver=base_app.address, amount=op.Global.min_balance + mint_cost, fee=0
+    // ).submit()
+    itxn_begin
+    // src/contract.py:324
+    // receiver=base_app.address, amount=op.Global.min_balance + mint_cost, fee=0
+    dup
+    app_params_get AppAddress
+    assert // application exists
+    global MinBalance
+    int 31300
+    +
+    itxn_field Amount
+    itxn_field Receiver
+    // src/contract.py:323
+    // itxn.Payment(
+    int pay
+    itxn_field TypeEnum
+    // src/contract.py:324
+    // receiver=base_app.address, amount=op.Global.min_balance + mint_cost, fee=0
+    int 0
+    itxn_field Fee
+    // src/contract.py:323-325
+    // itxn.Payment(
+    //     receiver=base_app.address, amount=op.Global.min_balance + mint_cost, fee=0
+    // ).submit()
+    itxn_submit
+    // src/contract.py:326-327
+    // ##########################################
+    // return base_app.id
+    retsub
+
+
+// opensubmarine.contracts.token.ARC200.src.contract.OSARC200TokenFactory.get_initial_payment() -> uint64:
+get_initial_payment:
+    // src/contract.py:329-331
+    // # override
+    // @subroutine
+    // def get_initial_payment(self) -> UInt64:
+    proto 0 1
+    // src/contract.py:335
+    // payment_amount = require_payment(Txn.sender)
+    txn Sender
+    callsub require_payment
+    // src/contract.py:337
+    // min_balance = op.Global.min_balance
+    global MinBalance
+    // src/contract.py:336
+    // mbr_increase = UInt64(mint_cost)
+    int 31300
+    // src/contract.py:339
+    // payment_amount >= mbr_increase + min_balance
+    dig 1
+    +
+    dig 2
+    <=
+    // src/contract.py:338-340
+    // assert (
+    //     payment_amount >= mbr_increase + min_balance
+    // ), "payment amount accurate"
+    assert // payment amount accurate
+    // src/contract.py:341
+    // initial = payment_amount - mbr_increase - min_balance
+    swap
+    // src/contract.py:336
+    // mbr_increase = UInt64(mint_cost)
+    int 31300
+    // src/contract.py:341
+    // initial = payment_amount - mbr_increase - min_balance
+    -
+    swap
+    -
+    // src/contract.py:342
+    // return initial
+    retsub
+
+
+// opensubmarine.utils.algorand.require_payment(who: bytes) -> uint64:
+require_payment:
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/utils/algorand.py:15-23
+    // ##############################################
+    // # function: require_payment (internal)
+    // # arguments: None
+    // # purpose: check payment
+    // # pre-conditions: None
+    // # post-conditions: None
+    // ##############################################
+    // @subroutine
+    // def require_payment(who: Account) -> UInt64:
+    proto 1 1
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/utils/algorand.py:24
+    // ref_group_index = Txn.group_index
+    txn GroupIndex
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/utils/algorand.py:25
+    // assert ref_group_index > 0, "group index greater than zero"
+    dup
+    assert // group index greater than zero
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/utils/algorand.py:26
+    // payment_group_index = ref_group_index - 1
+    int 1
+    -
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/utils/algorand.py:28
+    // gtxn.PaymentTransaction(payment_group_index).sender == who
+    dup
+    gtxns TypeEnum
+    int pay
+    ==
+    assert // transaction type is pay
+    dup
+    gtxns Sender
+    frame_dig -1
+    ==
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/utils/algorand.py:27-29
+    // assert (
+    //     gtxn.PaymentTransaction(payment_group_index).sender == who
+    // ), "payment sender accurate"
+    assert // payment sender accurate
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/utils/algorand.py:31
+    // gtxn.PaymentTransaction(payment_group_index).receiver
+    dup
+    gtxns Receiver
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/utils/algorand.py:32
+    // == Global.current_application_address
+    global CurrentApplicationAddress
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/utils/algorand.py:31-32
+    // gtxn.PaymentTransaction(payment_group_index).receiver
+    // == Global.current_application_address
+    ==
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/utils/algorand.py:30-33
+    // assert (
+    //     gtxn.PaymentTransaction(payment_group_index).receiver
+    //     == Global.current_application_address
+    // ), "payment receiver accurate"
+    assert // payment receiver accurate
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/utils/algorand.py:34
+    // return gtxn.PaymentTransaction(payment_group_index).amount
+    gtxns Amount
+    retsub
+
+
+// opensubmarine.contracts.update.Upgradeable.contract.Upgradeable.set_version(contract_version: bytes, deployment_version: bytes) -> void:
+set_version:
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:83-86
+    // @arc4.abimethod
+    // def set_version(
+    //     self, contract_version: arc4.UInt64, deployment_version: arc4.UInt64
+    // ) -> None:
+    proto 2 0
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:87
+    // assert Txn.sender == self.upgrader, "must be upgrader"
+    txn Sender
+    int 0
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:34
+    // self.upgrader = Account()
+    byte "upgrader"
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:87
+    // assert Txn.sender == self.upgrader, "must be upgrader"
+    app_global_get_ex
+    assert // check self.upgrader exists
+    ==
+    assert // must be upgrader
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:88
+    // arc4.emit(VersionUpdated(contract_version, deployment_version))
+    frame_dig -2
+    frame_dig -1
+    concat
+    method "VersionUpdated(uint64,uint64)"
+    swap
+    concat
+    log
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:89
+    // self.contract_version = contract_version.native
+    frame_dig -2
+    btoi
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:31
+    // self.contract_version = UInt64()
+    byte "contract_version"
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:89
+    // self.contract_version = contract_version.native
+    swap
+    app_global_put
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:90
+    // self.deployment_version = deployment_version.native
+    frame_dig -1
+    btoi
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:32
+    // self.deployment_version = UInt64()
+    byte "deployment_version"
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:90
+    // self.deployment_version = deployment_version.native
+    swap
+    app_global_put
+    retsub
+
+
+// opensubmarine.contracts.update.Upgradeable.contract.Upgradeable.approve_update(approval: bytes) -> void:
+approve_update:
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:101-102
+    // @arc4.abimethod
+    // def approve_update(self, approval: arc4.Bool) -> None:
+    proto 1 0
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:103
+    // assert Txn.sender == self.owner, "must be owner"
+    txn Sender
+    int 0
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/access/Ownable/contract.py:21
+    // self.owner = Account()
+    byte "owner"
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:103
+    // assert Txn.sender == self.owner, "must be owner"
+    app_global_get_ex
+    assert // check self.owner exists
+    ==
+    assert // must be owner
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:104
+    // arc4.emit(UpdateApproved(arc4.Address(self.owner), approval))
+    int 0
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/access/Ownable/contract.py:21
+    // self.owner = Account()
+    byte "owner"
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:104
+    // arc4.emit(UpdateApproved(arc4.Address(self.owner), approval))
+    app_global_get_ex
+    assert // check self.owner exists
+    frame_dig -1
+    concat
+    method "UpdateApproved(address,bool)"
+    swap
+    concat
+    log
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:105
+    // self.updatable = approval.native
+    frame_dig -1
+    int 0
+    getbit
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:33
+    // self.updatable = bool(1)
+    byte "updatable"
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:105
+    // self.updatable = approval.native
+    swap
+    app_global_put
+    retsub
+
+
+// opensubmarine.contracts.update.Upgradeable.contract.Upgradeable.grant_upgrader(upgrader: bytes) -> void:
+grant_upgrader:
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:107-108
+    // @arc4.abimethod
+    // def grant_upgrader(self, upgrader: arc4.Address) -> None:
+    proto 1 0
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:109
+    // assert Txn.sender == Global.creator_address, "must be creator"
+    txn Sender
+    global CreatorAddress
+    ==
+    assert // must be creator
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:110
+    // arc4.emit(UpgraderGranted(arc4.Address(self.upgrader), upgrader))
+    int 0
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:34
+    // self.upgrader = Account()
+    byte "upgrader"
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:110
+    // arc4.emit(UpgraderGranted(arc4.Address(self.upgrader), upgrader))
+    app_global_get_ex
+    assert // check self.upgrader exists
+    frame_dig -1
+    concat
+    method "UpgraderGranted(address,address)"
+    swap
+    concat
+    log
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:34
+    // self.upgrader = Account()
+    byte "upgrader"
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:111
+    // self.upgrader = upgrader.native
+    frame_dig -1
+    app_global_put
+    retsub
+
+
+// opensubmarine.contracts.update.Upgradeable.contract.Upgradeable.on_update() -> void:
+on_update:
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:92-93
+    // @arc4.baremethod(allow_actions=["UpdateApplication"])
+    // def on_update(self) -> None:
+    proto 0 0
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:94-97
+    // ##########################################
+    // # WARNING: This app can be updated by the creator
+    // ##########################################
+    // assert Txn.sender == self.upgrader, "must be upgrader"
+    txn Sender
+    int 0
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:34
+    // self.upgrader = Account()
+    byte "upgrader"
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:94-97
+    // ##########################################
+    // # WARNING: This app can be updated by the creator
+    // ##########################################
+    // assert Txn.sender == self.upgrader, "must be upgrader"
+    app_global_get_ex
+    assert // check self.upgrader exists
+    ==
+    assert // must be upgrader
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:98
+    // assert self.updatable == UInt64(1), "not approved"
+    int 0
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:33
+    // self.updatable = bool(1)
+    byte "updatable"
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:98
+    // assert self.updatable == UInt64(1), "not approved"
+    app_global_get_ex
+    assert // check self.updatable exists
+    int 1
+    ==
+    assert // not approved
+    retsub
+
+
+// opensubmarine.contracts.token.ARC200.src.contract.OSARC200TokenFactory.__init__() -> void:
+__init__:
+    // src/contract.py:287
+    // def __init__(self) -> None:
+    proto 0 0
+    // src/contract.py:288
+    // super().__init__()
+    callsub BaseFactory.__init__
+    retsub
+
+
+// opensubmarine.contracts.factory.Factory.contract.BaseFactory.__init__() -> void:
+BaseFactory.__init__:
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/factory/Factory/contract.py:20
+    // def __init__(self) -> None:  # pragma: no cover
+    proto 0 0
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/factory/Factory/contract.py:24
+    // super().__init__()
+    callsub Upgradeable.__init__
+    retsub
+
+
+// opensubmarine.contracts.update.Upgradeable.contract.Upgradeable.__init__() -> void:
+Upgradeable.__init__:
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:74
+    // def __init__(self) -> None:  # pragma: no cover
+    proto 0 0
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/access/Ownable/contract.py:21
+    // self.owner = Account()
+    byte "owner"
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:75-76
+    // # ownable state
+    // self.owner = Account()
+    global ZeroAddress
+    app_global_put
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:31
+    // self.contract_version = UInt64()
+    byte "contract_version"
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:77-78
+    // # upgradeable state
+    // self.contract_version = UInt64()
+    int 0
+    app_global_put
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:32
+    // self.deployment_version = UInt64()
+    byte "deployment_version"
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:79
+    // self.deployment_version = UInt64()
+    int 0
+    app_global_put
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:33
+    // self.updatable = bool(1)
+    byte "updatable"
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:80
+    // self.updatable = bool(1)
+    int 1
+    app_global_put
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:34
+    // self.upgrader = Account()
+    byte "upgrader"
+    // /Users/nicholasshellabarger/Desktop/repos/opensubmarine-contracts/src/opensubmarine/contracts/update/Upgradeable/contract.py:81
+    // self.upgrader = Global.creator_address
+    global CreatorAddress
+    app_global_put
+    retsub
