@@ -1,7 +1,0 @@
-#pragma version 10
-
-opensubmarine.contracts.token.ARC200.src.contract.OSARC200Token.clear_state_program:
-    // src/contract.py:220
-    // class OSARC200Token(ARC200Token, Upgradeable, Deployable, Stakeable):
-    int 1
-    return

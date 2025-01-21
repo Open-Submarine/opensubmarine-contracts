@@ -7,7 +7,7 @@ verify_ssl = true
 algokit = "==2.3.0"
 puyapy = "==3.0.3"
 pytest-cov = "*"
-opensubmarine = "==0.1.6"
+opensubmarine = {file = "../../../../..", editable = true}
 
 [dev-packages]
 pytest = "*"
