@@ -354,17 +354,17 @@ class ARC200TokenScaffold(ARC200Token, Upgradeable, Deployable, Stakeable):
         close_offline_on_delete(Txn.sender)
 
 
-class OSARC200TokenFactory(BaseFactory):
+class OSARC200TokenFactory(BaseFactory, Upgradeable):
     def __init__(self) -> None:
-        super().__init__()
+        # upgradeable state
+        self.contract_version = UInt64(1)
+        self.deployment_version = UInt64()
+        self.updatable = bool(1)
+        self.upgrader = Global.creator_address
 
     @arc4.abimethod
     def create(
         self,
-        # name: Bytes32,
-        # symbol: Bytes8,
-        # decimals: arc4.UInt8,
-        # totalSupply: arc4.UInt256,
     ) -> UInt64:
         """
         Create airdrop.
