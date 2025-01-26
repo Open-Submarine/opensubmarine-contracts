@@ -27,7 +27,7 @@ If you would like to contribute code or documentation you may do so by forking t
 
 Any non-trivial code contribution must be first discussed with the maintainers in an issue (see [Opening an issue](#opening-an-issue)). Only very minor changes are accepted without prior discussion.
 
-Make sure to read and follow the engineering guidelines. Run linter and tests to make sure your pull request is good before submitting it.
+Make sure to read and follow the [engineering guidelines](./GUIDELINES.md). Run linter and tests to make sure your pull request is good before submitting it.
 
 Changelog entries should be added to each pull request.
 
