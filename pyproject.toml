@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "opensubmarine"
-version = "0.1.18"
+version = "0.1.19"
 description = "A library for secure smart contract development on Algorand"
 readme = "README.md"
 authors = [{ name = "OpenSubmarine Team", email = "hello@nautilus.sh" }]
