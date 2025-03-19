@@ -8,13 +8,17 @@ from opensubmarine.contracts.token.ARC200.src.contract import (
     ARC200TokenInterface,
     arc200_Transfer,
 )
+from opensubmarine.contracts.utils.introspection.arc73.contract import (
+    ARC73SupportsInterface,
+)
 
 
-__version__ = "0.1.18"
+__version__ = "0.1.19"
 
 __all__ = [
     "ARC200Token",
     "ARC200TokenInterface",
+    "ARC73SupportsInterface",
     "BaseFactory",
     "Deployable",
     "FactoryCreated",
