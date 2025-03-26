@@ -8,16 +8,25 @@ from opensubmarine.contracts.token.ARC200.src.contract import (
     ARC200TokenInterface,
     arc200_Transfer,
 )
+from opensubmarine.contracts.token.ARC72.src.contract import (
+    ARC72Token,
+    ARC72TokenInterface,
+    arc72_Transfer,
+    arc72_nft_data,
+    arc72_holder_data,
+)
 from opensubmarine.contracts.utils.introspection.arc73.contract import (
     ARC73SupportsInterface,
 )
 
 
-__version__ = "0.1.19"
+__version__ = "0.2.2"
 
 __all__ = [
     "ARC200Token",
     "ARC200TokenInterface",
+    "ARC72Token",
+    "ARC72TokenInterface",
     "ARC73SupportsInterface",
     "BaseFactory",
     "Deployable",
@@ -27,6 +36,9 @@ __all__ = [
     "Stakeable",
     "Upgradeable",
     "arc200_Transfer",
+    "arc72_Transfer",
+    "arc72_nft_data",
+    "arc72_holder_data",
 ]
 
 OpenSubmarine_version = __version__
