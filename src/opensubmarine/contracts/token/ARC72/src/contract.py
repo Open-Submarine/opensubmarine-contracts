@@ -1,6 +1,5 @@
 import typing
 from algopy import (
-    Application,
     ARC4Contract,
     Account,
     BigUInt,
@@ -9,7 +8,6 @@ from algopy import (
     Bytes,
     Global,
     OnCompleteAction,
-    String,
     Txn,
     UInt64,
     arc4,
@@ -17,7 +15,7 @@ from algopy import (
     op,
     subroutine,
 )
-from utils import require_payment, close_offline_on_delete
+from opensubmarine.utils.algorand import require_payment, close_offline_on_delete
 
 Bytes4: typing.TypeAlias = arc4.StaticArray[arc4.Byte, typing.Literal[4]]
 Bytes8: typing.TypeAlias = arc4.StaticArray[arc4.Byte, typing.Literal[8]]
